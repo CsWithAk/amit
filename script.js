@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('mobile-menu');
     const navMenu = document.getElementById('nav-menu');
     
+    // Mobile menu toggle
     menuToggle.addEventListener('click', function() {
         navMenu.classList.toggle('active');
         
@@ -17,143 +18,170 @@ document.addEventListener('DOMContentLoaded', function() {
             spans[2].style.transform = 'none';
         }
     });
-            
-    // Close menu when a link is clicked
-    const navLinks = document.querySelectorAll('#nav-menu a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!menuToggle.contains(event.target) && !navMenu.contains(event.target) && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
+            
             // Reset the menu icon
             const spans = menuToggle.querySelectorAll('span');
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
+        }
+    });
+    
+    // Typed.js initialization
+    const typed = new Typed('.multiple-text', {
+        strings: ['Amit Kumar', 'a Web Developer', 'a Programmer'],
+        typeSpeed: 100,
+        backSpeed: 100,
+        backDelay: 1000,
+        loop: true
+    });
+    
+    // Back to top button
+    const toTopBtn = document.getElementById('toTopBtn');
+    
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            toTopBtn.classList.add('show');
+        } else {
+            toTopBtn.classList.remove('show');
+        }
+    });
+    
+    toTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
+        
+        // Add animation class
+        this.classList.add('clicked');
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 400);
+    });
+    
+
+    // Projects scroll buttons
+    const projectsContainer = document.getElementById("projectsContainer");
+    const scrollLeftBtn = document.getElementById("scrollLeft");
+    const scrollRightBtn = document.getElementById("scrollRight");
+
+    scrollLeftBtn.addEventListener("click", () => {
+        projectsContainer.scrollBy({ left: -320, behavior: "smooth" });
+    });
+
+    scrollRightBtn.addEventListener("click", () => {
+        projectsContainer.scrollBy({ left: 320, behavior: "smooth" });
     });
 
 
-      /*============Multiple text===============*/
-  
-    // Typed.js Animation
-    if (document.querySelector('.multiple-text')) {
-        new Typed(".multiple-text", {
-            strings: ["Amit Kumar", "Web Developer", "Frontend Developer"],
-            typeSpeed: 400,
-            backSpeed: 300,
-            backDelay: 1000,
-            loop: true
-        });
-    }
 
-    // Team member info toggle
-    document.querySelectorAll('.member-info-btn').forEach(button => {
+    // Read more buttons functionality
+    const readMoreButtons = document.querySelectorAll('.read-more');
+    
+    readMoreButtons.forEach(button => {
         button.addEventListener('click', function() {
             const details = this.nextElementSibling;
             details.classList.toggle('active');
             
-            // Change button text based on state
             if (details.classList.contains('active')) {
-                this.textContent = 'Hide Info';
+                this.textContent = 'Read Less';
             } else {
-                const name = this.textContent.replace('Hide Info', '').replace('About', '').trim();
-                this.textContent = 'About ' + name;
+                this.textContent = 'Read More';
             }
         });
     });
-
-    // Team slider functionality
-    const slider = document.getElementById('teamSlider');
-    const dotsContainer = document.getElementById('teamDots');
-    const members = document.querySelectorAll('.team-member');
-    let currentIndex = 0;
-    let slideInterval;
-            
-    // Create dots
-    members.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('team-dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => {
-            goToSlide(index);
-        });
-        dotsContainer.appendChild(dot);
-    });
     
-    // Update slider position
-    function updateSlider() {
-        const offset = -currentIndex * 100;
-        slider.style.transform = `translateX(${offset}%)`;
+    // Form validation and submission
+    const contactForm = document.getElementById('contactForm');
+    const status = document.getElementById('status');
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Update dots
-        document.querySelectorAll('.team-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-        });
-    }
-    
-    // Go to specific slide
-    function goToSlide(index) {
-        currentIndex = index;
-        if (currentIndex >= members.length) currentIndex = 0;
-        if (currentIndex < 0) currentIndex = members.length - 1;
-        updateSlider();
-        resetInterval();
-    }
-            
-    // Auto slide every 3 seconds
-    function startInterval() {
-        slideInterval = setInterval(() => {
-            goToSlide(currentIndex + 1);
-        }, 3000);
-    }
-    
-    // Reset interval when user interacts
-    function resetInterval() {
-        clearInterval(slideInterval);
-        startInterval();
-    }
-    
-    // Initialize
-    updateSlider();
-    startInterval();
-    
-    // Pause on hover
-    slider.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
-    });
-    
-    slider.addEventListener('mouseleave', () => {
-        startInterval();
-    });
-
-    //Resume
-    document.getElementById('resume-btn').addEventListener('click', () => {
-        window.open('https://drive.google.com/file/d/176xCwQRp1VAzqn5MS0V723uf2XqCrHUa/view?usp=drivesdk', '_blank');
-    });
-
-
-
-    /*========to-Top-btn=========*/
-    const toTopBtn = document.getElementById("toTopBtn");
-
-    // Show/hide button based on scroll
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
-            toTopBtn.classList.add("show");
-        } else {
-            toTopBtn.classList.remove("show");
+        // Basic form validation
+        const name = document.getElementById('name').value;
+        const mobile = document.getElementById('mobile').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        
+        if (!name || !mobile || !email || !message) {
+            showStatus('Please fill in all fields.', 'error');
+            return;
         }
+        
+        // Mobile number validation
+        const mobilePattern = /^[0-9]{10}$/;
+        if (!mobilePattern.test(mobile)) {
+            showStatus('Please enter a valid 10-digit mobile number.', 'error');
+            return;
+        }
+        
+        // Email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        // Initialize EmailJS with your public key
+        emailjs.init("zW1CiA7KX9nW6YNcD"); 
+        
+        // Send email using EmailJS
+        emailjs.sendForm("service_iuzpbi3", "template_3r2y3s8", this)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                showStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
+                contactForm.reset();
+            }, function(error) {
+                console.log('FAILED...', error);
+                showStatus('Sorry, there was an error sending your message. Please try again later.', 'error');
+            });
     });
-
-    // On click: animate and scroll to top
-    toTopBtn.addEventListener("click", () => {
-        toTopBtn.classList.add("clicked");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        // Remove bounce class after animation
+    
+    function showStatus(text, type) {
+        status.textContent = text;
+        status.className = type;
+        status.style.display = 'block';
+        
+        // Hide status after 5 seconds
         setTimeout(() => {
-            toTopBtn.classList.remove("clicked");
-        }, 400);
+            status.style.display = 'none';
+        }, 5000);
+    }
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Close mobile menu if open
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    const spans = menuToggle.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+                
+                // Scroll to the target element
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80, // Adjust for header height
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
-
-
 });
