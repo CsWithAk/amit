@@ -136,7 +136,7 @@ nav ul li a:hover {
 
 /* Hero Section */
 #hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('assets/background-cracker1.png') no-repeat center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('assets/Cover-Image.png') no-repeat center/cover;
     color: white; 
     text-align: center;
     padding: 150px 0 100px;
@@ -685,3 +685,4 @@ footer {
     75%  { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
+
