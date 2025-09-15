@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Typed.js initialization
     const typed = new Typed('.multiple-text', {
-        strings: ['Amit Kumar', 'a Web Developer', 'a Programmer'],
+        strings: ['Data Science', 'A Web Developer', 'A Programmer', 'Youtuber'],
         typeSpeed: 100,
         backSpeed: 100,
         backDelay: 1000,
@@ -185,3 +185,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
