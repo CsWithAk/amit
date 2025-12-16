@@ -258,8 +258,7 @@ nav ul li a:hover {
 .journey-part.internship .timeline {
     border-left: 2px solid #e74c3c;
     padding-left: 20px;
-    max-height: calc(3 * box-height + padding);
-    overflow-y: hidden;
+    
 }
 
 .timeline-item {
@@ -688,6 +687,7 @@ footer {
     75%  { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
+
 
 
 
